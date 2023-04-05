@@ -6,7 +6,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link as ReactLink } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import {
@@ -22,7 +23,15 @@ export const LoginPage = () => {
     onResetForm,
   } = useForm({ email: "test@test.com", password: "1234" });
 
+  const { status } = useSelector((state) => state.auth);
+
+  const isAuthenticating = useMemo(
+    () => status === "checking",
+    [status]
+  );
+
   const dispatch = useDispatch();
+
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(checkingAuthentication(email, password));
@@ -64,7 +73,12 @@ export const LoginPage = () => {
 
         <Grid container spacing={2} sx={{ my: 2 }}>
           <Grid item xs={12} sm={6}>
-            <Button type="submit" variant="outlined" fullWidth>
+            <Button
+              type="submit"
+              variant="outlined"
+              fullWidth
+              disabled={isAuthenticating}
+            >
               Login
             </Button>
           </Grid>
@@ -73,6 +87,7 @@ export const LoginPage = () => {
               onClick={onGoogleSignIn}
               variant="outlined"
               fullWidth
+              disabled={isAuthenticating}
             >
               <Google />
               <Typography sx={{ ml: 1 }}>Google </Typography>
