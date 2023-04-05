@@ -9,7 +9,10 @@ import {
 import { useDispatch } from "react-redux";
 import { Link as ReactLink } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
-import { checkingAuthentication } from "../../store/slices/thunks";
+import {
+  checkingAuthentication,
+  startGoogleSignIn,
+} from "../../store/slices/thunks";
 import { AuthLayout } from "../layout/AuthLayout";
 
 export const LoginPage = () => {
@@ -28,6 +31,7 @@ export const LoginPage = () => {
 
   const onGoogleSignIn = () => {
     console.log("google Sign in");
+    dispatch(startGoogleSignIn());
   };
 
   return (
