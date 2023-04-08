@@ -4,12 +4,31 @@ import { useForm } from "../../hooks/useForm";
 import { AuthLayout } from "../layout/AuthLayout";
 
 export const RegisterPage = () => {
-  const { email, password, name, formState, onInputChange } = useForm(
+  const formValidations = {
+    email: [(value) => value.includes("@"), "Email must have @"],
+    password: [
+      (value) => value.length <= 4,
+      "Password must have more than 4 letters",
+    ],
+    name: [(value) => value.length < 1, "Name is required"],
+  };
+  const {
+    email,
+    password,
+    name,
+    formState,
+    onInputChange,
+    isFormValid,
+    emailValid,
+    passwordValid,
+    nameValid,
+  } = useForm(
     {
       email: "elian@gmail.com",
       password: "12354",
       name: "elian",
-    }
+    },
+    formValidations
   );
 
   const onSubmit = (e) => {
@@ -22,9 +41,11 @@ export const RegisterPage = () => {
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
+              onError={null}
+              helperText={"This field is required or invalid"}
               label="full name"
               type="text"
-              name={name}
+              name={"name"}
               value={name}
               onChange={onInputChange}
               placeholder="John Doe"
@@ -33,9 +54,11 @@ export const RegisterPage = () => {
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
+              onError={null}
+              helperText={"This field is required or invalid"}
               label="email"
               type="email"
-              name={email}
+              name={"email"}
               value={email}
               onChange={onInputChange}
               placeholder="email@email.com"
@@ -44,9 +67,11 @@ export const RegisterPage = () => {
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
+              onError={null}
+              helperText={"This field is required or invalid"}
               label="password"
               type="password"
-              name={password}
+              name={"password"}
               value={password}
               onChange={onInputChange}
               placeholder="******"
