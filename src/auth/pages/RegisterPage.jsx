@@ -5,7 +5,7 @@ import { AuthLayout } from "../layout/AuthLayout";
 
 export const RegisterPage = () => {
   const formValidations = {
-    email: [(value) => value.includes("@"), "Email must have @"],
+    email: [(value) => !value.includes("@"), "Email must have @"],
     password: [
       (value) => value.length <= 4,
       "Password must have more than 4 letters",
@@ -18,10 +18,10 @@ export const RegisterPage = () => {
     name,
     formState,
     onInputChange,
-    isFormValid,
-    emailValid,
-    passwordValid,
-    nameValid,
+    formInvalid,
+    emailInvalid,
+    passwordInvalid,
+    nameInvalid,
   } = useForm(
     {
       email: "elian@gmail.com",
@@ -41,8 +41,8 @@ export const RegisterPage = () => {
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
-              onError={null}
-              helperText={"This field is required or invalid"}
+              error={!!nameInvalid}
+              helperText={nameInvalid}
               label="full name"
               type="text"
               name={"name"}
@@ -54,8 +54,8 @@ export const RegisterPage = () => {
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
-              onError={null}
-              helperText={"This field is required or invalid"}
+              error={!!emailInvalid}
+              helperText={emailInvalid}
               label="email"
               type="email"
               name={"email"}
@@ -67,8 +67,8 @@ export const RegisterPage = () => {
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
-              onError={null}
-              helperText={"This field is required or invalid"}
+              error={!!passwordInvalid}
+              helperText={passwordInvalid}
               label="password"
               type="password"
               name={"password"}
@@ -82,7 +82,12 @@ export const RegisterPage = () => {
 
         <Grid container spacing={2} sx={{ my: 2 }}>
           <Grid item xs={12} sm={6}>
-            <Button variant="outlined" type="submit" fullWidth>
+            <Button
+              disabled={formInvalid}
+              variant="outlined"
+              type="submit"
+              fullWidth
+            >
               Login
             </Button>
           </Grid>

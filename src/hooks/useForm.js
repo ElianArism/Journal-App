@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-export const useForm = (initialForm = {}, formValidations = {}) => {
+export const useForm = (
+  initialForm = {},
+  providedValidations = {}
+) => {
   const [formState, setFormState] = useState(initialForm);
-  const [formValidation, setFormValidation] =
-    useState(formValidations);
+  const [formValidations, setFormValidation] = useState(
+    providedValidations
+  );
 
   useEffect(() => {
     createValidators();
@@ -17,6 +21,12 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
     });
   };
 
+  const formInvalid = useMemo(() => {
+    for (const prop of Object.keys(formValidations))
+      if (formValidations[prop]?.length) return true;
+    return false;
+  }, [formValidations]);
+
   const onResetForm = () => {
     setFormState(initialForm);
   };
@@ -24,15 +34,15 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
   const createValidators = () => {
     const formCheckedValues = {};
 
-    for (const formField of Object.keys(formValidation)) {
-      const [validation, errorMsg = "This field is required"] =
-        formValidation[formField];
+    for (const formField of Object.keys(providedValidations)) {
+      const [validationFn, errorMsg = "This field is required"] =
+        providedValidations[formField];
 
-      formCheckedValues[`${formField}Valid`] = validation(
+      formCheckedValues[`${formField}Invalid`] = validationFn(
         formState[formField]
       )
-        ? null
-        : errorMsg;
+        ? errorMsg
+        : null;
     }
 
     setFormValidation(formCheckedValues);
@@ -43,7 +53,8 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
     formState,
     onInputChange,
     onResetForm,
-    formValidation,
-    ...formValidation,
+    formValidations,
+    ...formValidations,
+    formInvalid,
   };
 };
