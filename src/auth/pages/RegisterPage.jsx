@@ -1,14 +1,17 @@
 import { Button, Grid, Link, TextField } from "@mui/material";
+import { useDispatch } from "react-redux";
 import { Link as ReactLink } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
+import { createUserWithEmailAndPassword } from "../../store/slices/thunks";
 import { AuthLayout } from "../layout/AuthLayout";
 
 export const RegisterPage = () => {
+  const dispatch = useDispatch();
   const formValidations = {
     email: [(value) => !value.includes("@"), "Email must have @"],
     password: [
-      (value) => value.length <= 4,
-      "Password must have more than 4 letters",
+      (value) => value.length <= 6,
+      "Password must have more than 6 letters",
     ],
     name: [(value) => value.length < 1, "Name is required"],
   };
@@ -33,7 +36,14 @@ export const RegisterPage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(formState);
+    if (formInvalid) return;
+    dispatch(
+      createUserWithEmailAndPassword({
+        email,
+        password,
+        name,
+      })
+    );
   };
   return (
     <AuthLayout title="Register">
