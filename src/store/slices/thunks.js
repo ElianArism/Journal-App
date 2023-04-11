@@ -34,8 +34,7 @@ export const createUserWithEmailAndPassword = ({
       name,
       password,
     });
-    console.log(result);
-    // if (result.ok) dispatch(login(result));
-    // else dispatch(logout(result.details));
+    if (result.ok) dispatch(login(result));
+    else dispatch(logout({ details: result.details }));
   };
 };
