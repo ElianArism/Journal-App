@@ -28,7 +28,6 @@ export const createUserWithEmailAndPassword = ({
 }) => {
   return async (dispatch) => {
     dispatch(checkingCredentials({ status: "checking" }));
-
     const result = await registerWithEmailAndPassword({
       email,
       name,
