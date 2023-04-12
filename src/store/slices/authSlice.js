@@ -25,7 +25,7 @@ export const authSlice = createSlice({
     logout: (state, { payload }) => {
       return {
         ..._initialState,
-        errDetails: payload.details,
+        errDetails: payload?.details,
       };
     },
   },

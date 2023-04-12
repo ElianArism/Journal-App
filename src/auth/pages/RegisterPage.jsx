@@ -29,9 +29,9 @@ export const RegisterPage = () => {
     passwordInvalid,
   } = useForm(
     {
-      email: "elian@gmail.com",
-      password: "12354",
-      name: "elian",
+      email: "",
+      password: "",
+      name: "",
     },
     formValidations
   );
