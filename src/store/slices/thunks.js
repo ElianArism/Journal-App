@@ -1,4 +1,5 @@
 import {
+  customLoginWithEmailAndPassword,
   registerWithEmailAndPassword,
   signInWithGoogle,
 } from "../../firebase/providers";
@@ -35,5 +36,24 @@ export const createUserWithEmailAndPassword = ({
     });
     if (result.ok) dispatch(login(result));
     else dispatch(logout({ details: result.details }));
+  };
+};
+
+export const loginWithEmailAndPassword = ({ email, password }) => {
+  return async (dispatch) => {
+    dispatch(checkingCredentials({ status: "checking" }));
+    const result = await customLoginWithEmailAndPassword({
+      email,
+      password,
+    });
+    if (result.ok) {
+      delete result.ok;
+      dispatch(
+        login({
+          ...result,
+          status: "authenticated",
+        })
+      );
+    } else dispatch(logout({ details: result.details }));
   };
 };
