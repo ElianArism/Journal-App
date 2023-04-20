@@ -15,7 +15,6 @@ export const AppRouter = () => {
   // check if user is authenticated
   useEffect(() => {
     onAuthStateChanged(FirebaseAuth, async (user) => {
-      console.log(user);
       if (!user) return dispatch(logout());
       const { uid, displayName, email, photoURL } = user;
       dispatch(login({ uid, displayName, email, photoURL }));
