@@ -59,7 +59,7 @@ export const registerWithEmailAndPassword = async ({
       uid,
       email,
       password,
-      name,
+      displayName: name,
       photoURL,
     };
   } catch (error) {
@@ -111,4 +111,8 @@ export const customLoginWithEmailAndPassword = async ({
       },
     };
   }
+};
+
+export const logoutFirebase = async () => {
+  return await FirebaseAuth.signOut();
 };
