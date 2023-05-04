@@ -5,6 +5,7 @@ import { ImgGallery } from "../components";
 export const NoteView = () => {
   return (
     <Grid
+      className="animate__animated animate__fadeIn animate__faster"
       container
       direction="row"
       justifyContent="space-between"
@@ -27,6 +28,7 @@ export const NoteView = () => {
           type="text"
           variant="filled"
           fullWidth
+          autoComplete="on"
           placeholder="Add title"
           label="Title"
           sx={{ border: "none", mb: 1 }}
@@ -37,6 +39,7 @@ export const NoteView = () => {
           variant="filled"
           fullWidth
           multiline
+          autoComplete="on"
           placeholder="What happened today?"
           minRows={5}
           sx={{ border: "none", mb: 1 }}

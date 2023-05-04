@@ -59,7 +59,7 @@ export const registerWithEmailAndPassword = async ({
       uid,
       email,
       password,
-      name,
+      displayName: name,
       photoURL,
     };
   } catch (error) {

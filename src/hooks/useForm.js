@@ -18,6 +18,7 @@ export const useForm = (
     setFormState({
       ...formState,
       [name]: value,
+      [name + "Touched"]: true,
     });
   };
 

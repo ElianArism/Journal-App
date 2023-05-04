@@ -24,6 +24,9 @@ export const RegisterPage = () => {
     formState,
     formInvalid,
     nameInvalid,
+    nameTouched,
+    emailTouched,
+    passwordTouched,
     emailInvalid,
     onInputChange,
     passwordInvalid,
@@ -54,15 +57,19 @@ export const RegisterPage = () => {
   };
   return (
     <AuthLayout title="Register">
-      <form onSubmit={onSubmit}>
+      <form
+        onSubmit={onSubmit}
+        className="animate__animated animate__fadeIn animate__faster"
+      >
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
-              error={!!nameInvalid}
+              error={!!nameInvalid && !!nameTouched}
               helperText={nameInvalid}
               label="full name"
               type="text"
               name={"name"}
+              autoComplete="on"
               value={name}
               onChange={onInputChange}
               placeholder="John Doe"
@@ -71,10 +78,11 @@ export const RegisterPage = () => {
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
-              error={!!emailInvalid}
+              error={!!emailInvalid && !!emailTouched}
               helperText={emailInvalid}
               label="email"
               type="email"
+              autoComplete="on"
               name={"email"}
               value={email}
               onChange={onInputChange}
@@ -84,9 +92,10 @@ export const RegisterPage = () => {
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
-              error={!!passwordInvalid}
+              error={!!passwordInvalid && !!passwordTouched}
               helperText={passwordInvalid}
               label="password"
+              autoComplete="on"
               type="password"
               name={"password"}
               value={password}
