@@ -7,8 +7,16 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { startLogout } from "../../store/slices/thunks";
 
 export const NavBar = ({ drawerWidth }) => {
+  const dispatch = useDispatch();
+
+  const onLogout = () => {
+    dispatch(startLogout());
+  };
+
   return (
     <AppBar
       position="fixed"
@@ -37,7 +45,7 @@ export const NavBar = ({ drawerWidth }) => {
           <Typography variant="h6" noWrap component="div">
             Journal App
           </Typography>
-          <IconButton color="error">
+          <IconButton color="error" onClick={onLogout}>
             <LogoutOutlined />
           </IconButton>
         </Grid>
