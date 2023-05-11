@@ -1,10 +1,17 @@
 import { AddOutlined } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { startAddNewNote } from "../../store/slices/journal/thunks";
 import { NavBar, Sidebar } from "../components";
 
 const _drawerWidth = 300;
 
 export const JournalLayout = ({ children }) => {
+  const dispatch = useDispatch();
+  const { isSaving } = useSelector((state) => state.journal);
+  const onClickNewNote = () => {
+    dispatch(startAddNewNote());
+  };
   return (
     <Box sx={{ display: "flex", p: 3, mt: 8 }}>
       {/* Navbar  (drawer) */}
@@ -19,6 +26,8 @@ export const JournalLayout = ({ children }) => {
       </Box>
 
       <IconButton
+        disabled={isSaving}
+        onClick={onClickNewNote}
         size="large"
         sx={{
           position: "fixed",
