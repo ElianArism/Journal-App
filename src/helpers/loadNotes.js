@@ -8,6 +8,5 @@ export const loadNotes = async (id = "") => {
     `${id}/journal/notes`
   );
   const docsRef = await getDocs(collectionRef);
-  console.log(docsRef);
   return docsRef.docs.map((d) => d.data());
 };

@@ -1,8 +1,45 @@
 import { SaveOutlined } from "@mui/icons-material";
 import { Button, Grid, TextField, Typography } from "@mui/material";
+import { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "../../hooks/useForm";
+import { setActiveNote } from "../../store/slices/journal/journalSlice";
+import { startSaveNote } from "../../store/slices/journal/thunks";
 import { ImgGallery } from "../components";
 
 export const NoteView = () => {
+  const { activeNote } = useSelector((state) => state.journal);
+  const dispatch = useDispatch();
+  const {
+    id,
+    title,
+    body,
+    date,
+    imageUrls,
+    onInputChange,
+    formState,
+  } = useForm(activeNote);
+
+  const dateString = useMemo(() => {
+    return new Date(date).toUTCString();
+  }, [date]);
+
+  useEffect(() => {
+    dispatch(
+      setActiveNote({
+        id,
+        title,
+        body,
+        date,
+        imageUrls,
+      })
+    );
+  }, [formState]);
+
+  const onSaveNote = () => {
+    dispatch(startSaveNote());
+  };
+
   return (
     <Grid
       className="animate__animated animate__fadeIn animate__faster"
@@ -14,11 +51,15 @@ export const NoteView = () => {
     >
       <Grid item>
         <Typography variant="p" fontSize={30} fontWeight="light">
-          {new Date().toISOString()}
+          {dateString}
         </Typography>
       </Grid>
       <Grid item>
-        <Button color="primary" xx={{ padding: 2 }}>
+        <Button
+          onClick={onSaveNote}
+          color="primary"
+          xx={{ padding: 2 }}
+        >
           <SaveOutlined sx={{ fontSize: 30, mr: 1 }} />
           Save
         </Button>
@@ -31,14 +72,20 @@ export const NoteView = () => {
           autoComplete="on"
           placeholder="Add title"
           label="Title"
+          name="title"
+          value={title}
+          onChange={onInputChange}
           sx={{ border: "none", mb: 1 }}
         />
 
         <TextField
           type="text"
+          name="body"
           variant="filled"
           fullWidth
           multiline
+          value={body}
+          onChange={onInputChange}
           autoComplete="on"
           placeholder="What happened today?"
           minRows={5}
