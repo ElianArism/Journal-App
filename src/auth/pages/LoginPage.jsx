@@ -17,12 +17,14 @@ import {
 } from "../../store/slices/thunks";
 import { AuthLayout } from "../layout/AuthLayout";
 
+const formData = { email: "", password: "" };
+
 export const LoginPage = () => {
   const {
     formState: { password, email },
     onInputChange,
     onResetForm,
-  } = useForm({ email: "", password: "" });
+  } = useForm(formData);
 
   const { status, errDetails, ...userInfo } = useSelector(
     (state) => state.auth
@@ -38,11 +40,9 @@ export const LoginPage = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(loginWithEmailAndPassword({ password, email }));
-    console.log(userInfo);
   };
 
   const onGoogleSignIn = () => {
-    console.log("google Sign in");
     dispatch(startGoogleSignIn());
   };
 

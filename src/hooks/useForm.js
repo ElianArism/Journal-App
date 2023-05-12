@@ -13,6 +13,10 @@ export const useForm = (
     createValidators();
   }, [formState]);
 
+  useEffect(() => {
+    setFormState(initialForm);
+  }, [initialForm]);
+
   const onInputChange = ({ target }) => {
     const { name, value } = target;
     setFormState({
