@@ -44,7 +44,27 @@ export const journalSlice = createSlice({
       });
       state.uiMessage = `${state.activeNote.title} updated correctly`;
     },
-    deleteNoteById: (state, action) => {},
+    setPhotosToActiveNote: (state, action) => {
+      state.activeNote.imageUrls = [
+        ...state.activeNote.imageUrls,
+        ...action.payload,
+      ];
+      state.isSaving = false;
+    },
+    deleteNoteById: (state, action) => {
+      state.notes = state.notes.filter(
+        (n) => n.id !== action.payload
+      );
+      state.activeNote = null;
+    },
+    clearNotesOnLogout: (state) => {
+      return {
+        isSaving: false,
+        uiMessage: "",
+        notes: [],
+        activeNote: null,
+      };
+    },
   },
 });
 
@@ -56,4 +76,6 @@ export const {
   noteUpdated,
   deleteNoteById,
   savingNewNote,
+  clearNotesOnLogout,
+  setPhotosToActiveNote,
 } = journalSlice.actions;

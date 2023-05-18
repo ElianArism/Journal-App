@@ -1,4 +1,8 @@
-import { SaveOutlined, UploadOutlined } from "@mui/icons-material";
+import {
+  DeleteOutline,
+  SaveOutlined,
+  UploadOutlined,
+} from "@mui/icons-material";
 import {
   Button,
   Grid,
@@ -13,6 +17,7 @@ import "sweetalert2/dist/sweetalert2.css";
 import { useForm } from "../../hooks/useForm";
 import { setActiveNote } from "../../store/slices/journal/journalSlice";
 import {
+  startDeletingNote,
   startSaveNote,
   startUploadingFiles,
 } from "../../store/slices/journal/thunks";
@@ -64,6 +69,10 @@ export const NoteView = () => {
     dispatch(startSaveNote());
   };
 
+  const onDeleteNote = () => {
+    dispatch(startDeletingNote());
+  };
+
   const onAddFileChange = ({ target }) => {
     if (target.files.length < 1) return;
 
@@ -102,6 +111,7 @@ export const NoteView = () => {
         <Button
           onClick={onSaveNote}
           color="primary"
+          disabled={isSaving}
           xx={{ padding: 2 }}
         >
           <SaveOutlined sx={{ fontSize: 30, mr: 1 }} />
@@ -137,8 +147,14 @@ export const NoteView = () => {
         />
       </Grid>
 
+      <Grid container justifyContent="end">
+        <Button onClick={onDeleteNote} sx={{ mt: 2 }} color="error">
+          <DeleteOutline />
+        </Button>
+      </Grid>
+
       {/* Img Gallery */}
-      <ImgGallery />
+      <ImgGallery images={activeNote.imageUrls} />
     </Grid>
   );
 };
