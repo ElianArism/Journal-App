@@ -102,6 +102,7 @@ export const NoteView = () => {
         <Button
           onClick={onSaveNote}
           color="primary"
+          disabled={isSaving}
           xx={{ padding: 2 }}
         >
           <SaveOutlined sx={{ fontSize: 30, mr: 1 }} />
@@ -138,7 +139,7 @@ export const NoteView = () => {
       </Grid>
 
       {/* Img Gallery */}
-      <ImgGallery />
+      <ImgGallery images={activeNote.imageUrls} />
     </Grid>
   );
 };
